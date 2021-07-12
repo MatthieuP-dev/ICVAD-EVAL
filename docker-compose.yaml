@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+    worker:
+        build:
+            context: ./worker
+            dockerfile: Dockerfile
+        ports:
+            - 3000-3003
+        networks: 
+            - evalicvad
+        environment: 
+            - TASKS=4
+
+    planner:
+        build:
+            context: ./planner
+            dockerfile: Dockerfile
+        networks: 
+            - evalicvad
+        environment: 
+            - ADD=true
+            - MULT=true
+        depends_on: 
+            -   worker
+networks: 
+    evalicvad:
+        driver: bridge

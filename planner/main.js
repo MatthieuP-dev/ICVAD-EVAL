@@ -8,8 +8,8 @@ const args = () => ({ a: randInt(0, 40), b: randInt(0, 40) })
 
 const generateTasks = i =>
   new Array(i).fill(1).map(_ => ({ type: taskType(), args: args() }))
-
-let workers = ['http://localhost:3000']
+let n = 0
+let workers = ['http://localhost:3000','http://localhost:3001','http://localhost:3002','http://localhost:3003']
 let tasks = generateTasks(nbTasks)
 let taskToDo = nbTasks
 
@@ -48,7 +48,7 @@ const main = async () => {
   while (taskToDo > 0 && i < 4) {
     i++
     await wait(100)
-    if (workers.length === 0 || tasks.length === 0) continue
+    if (workers.length === i || tasks.length === 0) continue
     sendTask(workers[0], tasks[0])
   }
 }
